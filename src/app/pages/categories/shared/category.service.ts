@@ -35,7 +35,20 @@ export class CategoryService {
       map(this.jsonDataToCategory)
     )
   } 
- // update(category: Category): 
+  update(category: Category): Observable<Category>{
+    const url = `${this.apiPath}/${category.id}`;
+    return this.http.put(url,category).pipe(
+      catchError(this.handleError),
+      map(() => category))
+  } 
+
+  delete(id: number): Observable<any> {
+    const url = `${this.apiPath}/${id}`;
+    return this.http.delete(url).pipe(
+      catchError(this.handleError),
+      map(() => null))
+  }
+
 
   private jsonDataToCategories(JsonData: any[]): Category[] {
     const categories: Category[] = [];
