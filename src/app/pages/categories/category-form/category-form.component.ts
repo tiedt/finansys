@@ -39,7 +39,7 @@ export class CategoryFormComponent implements OnInit, AfterContentChecked {
   }
   submitForm() {
     this.submitingForm = true;
-    if(this.currecntAction == "new") {
+    if (this.currecntAction == "new") {
       this.createCategory();
     } else {
       this.updateCategory();
@@ -49,33 +49,33 @@ export class CategoryFormComponent implements OnInit, AfterContentChecked {
   private createCategory() {
     const category: Category = Object.assign(new Category, this.categoryForm.value);
     this.categoryService.create(category)
-    .subscribe(
-      category => this.actionsForSucess(category),
-        error => this.actionForError(error)  
-        )
+      .subscribe(
+        category => this.actionsForSucess(category),
+        error => this.actionForError(error)
+      )
   }
   actionForError(error: any): void {
-  //  toastr.error("Ocorreu um erro ao processar sua solicitação!");
+    //  toastr.error("Ocorreu um erro ao processar sua solicitação!");
     this.submitingForm = false;
-    if(error.status === 422)
-    this.serverErrorMessages = JSON.parse(error._body).errors;
-    else 
-    this.serverErrorMessages = ["Falha na comunicação com o Servidor, por favor tente mais tarde"]
+    if (error.status === 422)
+      this.serverErrorMessages = JSON.parse(error._body).errors;
+    else
+      this.serverErrorMessages = ["Falha na comunicação com o Servidor, por favor tente novamente mais tarde"]
   }
   actionsForSucess(category: Category) {
-  //  toastr.success("Solicitação processada com sucesso!");
-    this.router.navigateByUrl("categories", {skipLocationChange: true}).then(
+    //  toastr.success("Solicitação processada com sucesso!");
+    this.router.navigateByUrl("categories", { skipLocationChange: true }).then(
       () => this.router.navigate(["categories", category.id, "id"])
     )
   }
-  
+
   private updateCategory() {
     const category: Category = Object.assign(new Category, this.categoryForm.value);
-    
+
     this.categoryService.update(category).subscribe(
       category => this.actionsForSucess(category),
-        error => this.actionForError(error)  
-        )
+      error => this.actionForError(error)
+    )
   }
   private setCurrentAction() {
     if (this.route.snapshot.url[0].path == "new") {

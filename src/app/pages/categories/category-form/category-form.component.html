@@ -20,7 +20,7 @@
     </div>
 </div>
 
-<form [formGroup]="categoryForm" (submitForm)="submitForm()">
+<form [formGroup]="categoryForm" (submit)="submitForm()">
        <div class="card">
            <div class="card-header">
                Informações sobre a categoria
@@ -41,6 +41,13 @@
                    </div>
                </div>
            </div>
+       </div>
+       <div class="alert alert-danger mt-4" *ngIf="serverErrorMessages">
+           <strong>Erro no Servidor
+               <ul>
+                   <li *ngFor="let error of serverErrorMessages">{{error}}</li>
+               </ul>
+           </strong>
        </div>
        <button [disabled]="submitForm() || categoryForm.invalid" class="submit" class="btn btn-primary btn-lg float-right mt-3">Salvar</button>
 </form>
